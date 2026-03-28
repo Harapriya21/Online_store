@@ -1,6 +1,6 @@
 import { useState } from "react";
 import products from "../data/products";
-import Navbar from "../component/Navbar";
+import NavBar from "../component/NavBar";
 import ProductCard from "../component/ProductCard";
 import Filters from "../component/Filter";
 import Banner from "../component/Banner";
@@ -33,7 +33,7 @@ function Home() {
     <div className="flex flex-col min-h-screen">
       
       
-      <Navbar setSearch={setSearch} />
+      <NavBar setSearch={setSearch} />
       <Banner />
       <Filters setCategory={setCategory} setSort={setSort} />
 
