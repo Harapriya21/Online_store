@@ -6,38 +6,39 @@ import toast from "react-hot-toast";
 function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
 
+  if (!product) return null;
+
   const handleAddToCart = () => {
     addToCart(product);
-    toast.success(`${product.name} added to cart 🛒`);
+    toast.success(`${product.name || "Product"} added to cart 🛒`);
   };
 
   return (
-    <div className="border rounded-lg p-4 shadow hover:shadow-lg transition duration-300">
-      
-      
-      <Link to={`/product/${product.id}`}>
+    <div className="border rounded-lg p-4 shadow">
+
+      <Link to={`/product/${product._id}`}>
         <img
-          src={product.image}
-          alt={product.name}
+          src={product.image || "https://via.placeholder.com/200"}
+          alt={product.name || "Product"}
           className="h-40 w-full object-contain mb-4"
-          onError={(e) =>
-            (e.target.src = "https://via.placeholder.com/200")
-          }
         />
       </Link>
 
-      
-      <h2 className="text-lg font-semibold">{product.name}</h2>
-      <p className="text-gray-600">₹{product.price}</p>
-      <p className="text-yellow-500">⭐ {product.rating}</p>
+      <h2 className="text-lg font-semibold">
+        {product.name || "No Name"}
+      </h2>
 
-      
+      <p className="text-gray-600">
+        ₹ {product.price || 0}
+      </p>
+
       <button
         onClick={handleAddToCart}
-        className="bg-blue-500 text-white px-4 py-2 mt-3 w-full rounded hover:bg-blue-600"
+        className="bg-blue-500 text-white px-4 py-2 mt-3 w-full rounded"
       >
         Add to Cart
       </button>
+
     </div>
   );
 }

@@ -1,33 +1,38 @@
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import products from "../data/products";
-import { useContext } from "react";
+import axios from "axios";
 import { CartContext } from "../context/CartContext";
 
 function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useContext(CartContext);
 
-  const product = products.find(p => p.id === Number(id));
+  const [product, setProduct] = useState(null);
 
-  
+  useEffect(() => {
+    axios.get(`/api/products/${id}`)
+      .then((res) => setProduct(res.data))
+      .catch((err) => console.log(err));
+  }, [id]);
+
   if (!product) {
-    return <h2 className="p-10 text-red-500">Product not found</h2>;
+    return <h2 className="p-10 text-red-500">Loading...</h2>;
   }
 
   return (
     <div className="p-10">
-      
+
       <img
-        src={product.image}
+        src={product.image || "https://via.placeholder.com/200"}
         className="w-60"
-        onError={(e) =>
-          (e.target.src = "https://via.placeholder.com/200")
-        }
+        alt={product.name}
       />
 
-      <h1 className="text-2xl font-bold">{product.name}</h1>
-      <p>₹{product.price}</p>
-      <p>⭐ {product.rating}</p>
+      <h1 className="text-2xl font-bold">
+        {product.name || "No Name"}
+      </h1>
+
+      <p>₹{product.price || 0}</p>
 
       <button
         onClick={() => addToCart(product)}
